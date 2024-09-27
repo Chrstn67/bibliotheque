@@ -1,10 +1,10 @@
 const express = require("express");
 const {
-  createCommande, // Nom corrigé
-  getAllCommandes, // Nom corrigé
-  getCommandeById, // Nom corrigé
-  updateCommande, // Nom corrigé
-  deleteCommande, // Nom corrigé
+  createCommande,
+  getAllCommandes,
+  getCommandeById,
+  updateCommande,
+  deleteCommande,
 } = require("../controllers/commandeController");
 const router = express.Router();
 

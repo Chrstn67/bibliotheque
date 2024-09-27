@@ -1,16 +1,29 @@
 const mongoose = require("mongoose");
 
-const orderSchema = mongoose.Schema(
+const commandeSchema = new mongoose.Schema(
   {
-    reader: { type: mongoose.Schema.Types.ObjectId, ref: "Proclamateur" },
-    publications: [{ title: String, quantity: Number }],
-    orderType: {
-      type: String,
+    reader: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Reader",
       required: true,
-      enum: ["annuelle", "permanente", "ponctuelle"], // Valeurs possibles pour orderType
+    },
+    publications: [
+      {
+        publicationId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Publication",
+          required: true,
+        },
+        quantity: { type: Number, required: true },
+      },
+    ],
+    typeCommande: {
+      type: String,
+      enum: ["Annuelle", "Permanente"],
+      required: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Order", orderSchema);
+module.exports = mongoose.model("Commande", commandeSchema);

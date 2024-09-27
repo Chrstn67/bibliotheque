@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-const readerSchema = mongoose.Schema(
+const readerSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     groupNumber: { type: String, required: true },
-    orders: [{ type: mongoose.Schema.Types.ObjectId, ref: "Commande" }],
+    commandes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Commande" }],
   },
   { timestamps: true }
 );

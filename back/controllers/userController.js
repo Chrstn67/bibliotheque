@@ -1,86 +1,63 @@
 const User = require("../models/User");
 
-// Ajouter un nouvel utilisateur (accessible uniquement pour l'administrateur)
-exports.createUser = async (req, res) => {
-  try {
-    const { username, email, password, role } = req.body;
-
-    // Vérifier si l'utilisateur existe déjà
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Cet utilisateur existe déjà" });
-    }
-
-    // Créer le nouvel utilisateur
-    const user = await User.create({
-      username,
-      email,
-      password,
-      role,
-    });
-
-    res.status(201).json({
-      message: "Utilisateur créé avec succès",
-      user,
-    });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-// Récupérer tous les utilisateurs (accessible uniquement pour l'administrateur)
+// Get all users
 exports.getAllUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users);
+    res.status(200).json(users);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: "Erreur serveur" });
   }
 };
 
-// Récupérer un utilisateur par ID (accessible uniquement pour l'administrateur)
+// Create a new user
+exports.createUser = async (req, res) => {
+  try {
+    const newUser = new User(req.body);
+    const savedUser = await newUser.save();
+    res.status(201).json(savedUser);
+  } catch (error) {
+    res.status(500).json({ error: "Erreur serveur" });
+  }
+};
+
+// Get a single user by ID
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     if (!user) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
     }
-    res.json(user);
+    res.status(200).json(user);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: "Erreur serveur" });
   }
 };
 
-// Mettre à jour un utilisateur (accessible uniquement pour l'administrateur)
+// Update a user by ID
 exports.updateUser = async (req, res) => {
   try {
-    const { username, email, role } = req.body;
-    const user = await User.findByIdAndUpdate(
-      req.params.id,
-      { username, email, role },
-      { new: true }
-    );
-    if (!user) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
-    }
-    res.json({
-      message: "Utilisateur mis à jour avec succès",
-      user,
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
     });
+    if (!updatedUser) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+    res.status(200).json(updatedUser);
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: "Erreur serveur" });
   }
 };
 
-// Supprimer un utilisateur (accessible uniquement pour l'administrateur)
+// Delete a user by ID
 exports.deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.id);
-    if (!user) {
-      return res.status(404).json({ message: "Utilisateur non trouvé" });
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
     }
-    res.json({ message: "Utilisateur supprimé avec succès" });
+    res.status(200).json({ message: "Utilisateur supprimé avec succès" });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({ error: "Erreur serveur" });
   }
 };
