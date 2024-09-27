@@ -6,18 +6,22 @@ import "./Login.scss";
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          username,
+          password,
+        }
+      );
 
-      if (response.status === 200) {
+      if (response.status === 200 && response.data.token) {
         // Enregistrer le token et rôle de l'utilisateur
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("role", response.data.role);
@@ -36,10 +40,14 @@ function Login() {
           default:
             navigate("/");
         }
+      } else {
+        setError(
+          "Erreur lors de la connexion. Veuillez vérifier vos identifiants."
+        );
       }
     } catch (error) {
-      console.error(error);
-      alert("Identifiants incorrects");
+      console.error("Erreur de connexion :", error);
+      setError("Identifiants incorrects ou problème serveur.");
     }
   };
 
@@ -47,6 +55,9 @@ function Login() {
     <section className="login-container">
       <form onSubmit={handleLogin} className="login-form">
         <h2>Connexion</h2>
+
+        {error && <p className="error-message">{error}</p>}
+
         <div className="form-group">
           <label htmlFor="username">Nom d'utilisateur</label>
           <input

@@ -54,9 +54,10 @@ const Header = () => {
               <span>Accueil</span>
             </NavLink>
           </li>
+
           <li className="navbar-item">
             <NavLink
-              to="/commandes-management"
+              to="/readers-commandes"
               onClick={() => {
                 if (isMobile) {
                   toggleMenu();
@@ -64,9 +65,10 @@ const Header = () => {
                 scrollToTop();
               }}
             >
-              <span>Commandes</span>
+              <span>Readers</span>
             </NavLink>
           </li>
+
           <li className="navbar-item">
             <NavLink
               to="/stock-management"
@@ -124,17 +126,19 @@ const Header = () => {
                   <span>Accueil</span>
                 </NavLink>
               </li>
+
               <li className="navbar-item">
                 <NavLink
-                  to="/commandes-management"
+                  to="/readers-commandes"
                   onClick={() => {
                     toggleMenu();
                     scrollToTop();
                   }}
                 >
-                  <span>Commandes</span>
+                  <span>Readers</span>
                 </NavLink>
               </li>
+
               <li className="navbar-item">
                 <NavLink
                   to="/stock-management"
