@@ -1,16 +1,16 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const commandeSchema = new mongoose.Schema(
+const commandeSchema = new Schema(
   {
     reader: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Reader",
       required: true,
     },
     publications: [
       {
         publicationId: {
-          type: mongoose.Schema.Types.ObjectId,
+          type: Schema.Types.ObjectId,
           ref: "Publication",
           required: true,
         },
@@ -26,4 +26,4 @@ const commandeSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Commande", commandeSchema);
+export default model("Commande", commandeSchema);

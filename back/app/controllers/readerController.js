@@ -1,17 +1,17 @@
-const Reader = require("../models/Reader");
+import Reader, { find, findById, findByIdAndUpdate, findByIdAndDelete } from "../models/Reader";
 
 // Get all readers
-exports.getAllReaders = async (req, res) => {
+export async function getAllReaders(req, res) {
   try {
-    const readers = await Reader.find();
+    const readers = await find();
     res.status(200).json(readers);
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Create a new reader
-exports.createReader = async (req, res) => {
+export async function createReader(req, res) {
   try {
     const newReader = new Reader(req.body);
     const savedReader = await newReader.save();
@@ -19,12 +19,12 @@ exports.createReader = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Get a single reader by ID
-exports.getReaderById = async (req, res) => {
+export async function getReaderById(req, res) {
   try {
-    const reader = await Reader.findById(req.params.id);
+    const reader = await findById(req.params.id);
     if (!reader) {
       return res.status(404).json({ error: "Lecteur non trouvé" });
     }
@@ -32,12 +32,12 @@ exports.getReaderById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Update a reader by ID
-exports.updateReader = async (req, res) => {
+export async function updateReader(req, res) {
   try {
-    const updatedReader = await Reader.findByIdAndUpdate(
+    const updatedReader = await findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
@@ -49,12 +49,12 @@ exports.updateReader = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Delete a reader by ID
-exports.deleteReader = async (req, res) => {
+export async function deleteReader(req, res) {
   try {
-    const deletedReader = await Reader.findByIdAndDelete(req.params.id);
+    const deletedReader = await findByIdAndDelete(req.params.id);
     if (!deletedReader) {
       return res.status(404).json({ error: "Lecteur non trouvé" });
     }
@@ -62,4 +62,4 @@ exports.deleteReader = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}

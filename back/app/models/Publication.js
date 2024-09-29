@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import { Schema, model } from "mongoose";
 
-const publicationSchema = mongoose.Schema(
+const publicationSchema = Schema(
   {
     type: {
       type: String,
@@ -15,4 +15,4 @@ const publicationSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Publication", publicationSchema);
+export default model("Publication", publicationSchema);

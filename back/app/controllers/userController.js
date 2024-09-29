@@ -1,17 +1,17 @@
-const User = require("../models/User");
+import User, { find, findById, findByIdAndUpdate, findByIdAndDelete } from "../models/User";
 
 // Get all users
-exports.getAllUsers = async (req, res) => {
+export async function getAllUsers(req, res) {
   try {
-    const users = await User.find();
+    const users = await find();
     res.status(200).json(users);
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Create a new user
-exports.createUser = async (req, res) => {
+export async function createUser(req, res) {
   try {
     const newUser = new User(req.body);
     const savedUser = await newUser.save();
@@ -19,12 +19,12 @@ exports.createUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Get a single user by ID
-exports.getUserById = async (req, res) => {
+export async function getUserById(req, res) {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await findById(req.params.id);
     if (!user) {
       return res.status(404).json({ error: "Utilisateur non trouvé" });
     }
@@ -32,12 +32,12 @@ exports.getUserById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Update a user by ID
-exports.updateUser = async (req, res) => {
+export async function updateUser(req, res) {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    const updatedUser = await findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     if (!updatedUser) {
@@ -47,12 +47,12 @@ exports.updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Delete a user by ID
-exports.deleteUser = async (req, res) => {
+export async function deleteUser(req, res) {
   try {
-    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    const deletedUser = await findByIdAndDelete(req.params.id);
     if (!deletedUser) {
       return res.status(404).json({ error: "Utilisateur non trouvé" });
     }
@@ -60,4 +60,4 @@ exports.deleteUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}

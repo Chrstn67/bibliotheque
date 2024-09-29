@@ -1,6 +1,6 @@
-exports.errorHandler = (err, req, res, next) => {
+export function errorHandler(err, req, res, next) {
   res.status(500).json({
     success: false,
     error: err.message,
   });
-};
+}

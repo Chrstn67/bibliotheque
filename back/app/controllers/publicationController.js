@@ -1,17 +1,17 @@
-const Publication = require("../models/Publication");
+import Publication, { find, findById, findByIdAndUpdate, findByIdAndDelete } from "../models/Publication";
 
 // Get all publications
-exports.getAllPublications = async (req, res) => {
+export async function getAllPublications(req, res) {
   try {
-    const publications = await Publication.find();
+    const publications = await find();
     res.status(200).json(publications);
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Create a new publication
-exports.createPublication = async (req, res) => {
+export async function createPublication(req, res) {
   try {
     const newPublication = new Publication(req.body);
     const savedPublication = await newPublication.save();
@@ -19,12 +19,12 @@ exports.createPublication = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Get a single publication by ID
-exports.getPublicationById = async (req, res) => {
+export async function getPublicationById(req, res) {
   try {
-    const publication = await Publication.findById(req.params.id);
+    const publication = await findById(req.params.id);
     if (!publication) {
       return res.status(404).json({ error: "Publication non trouvée" });
     }
@@ -32,12 +32,12 @@ exports.getPublicationById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Update a publication by ID
-exports.updatePublication = async (req, res) => {
+export async function updatePublication(req, res) {
   try {
-    const updatedPublication = await Publication.findByIdAndUpdate(
+    const updatedPublication = await findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
@@ -49,12 +49,12 @@ exports.updatePublication = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Delete a publication by ID
-exports.deletePublication = async (req, res) => {
+export async function deletePublication(req, res) {
   try {
-    const deletedPublication = await Publication.findByIdAndDelete(
+    const deletedPublication = await findByIdAndDelete(
       req.params.id
     );
     if (!deletedPublication) {
@@ -64,4 +64,4 @@ exports.deletePublication = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}

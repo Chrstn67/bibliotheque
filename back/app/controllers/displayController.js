@@ -1,17 +1,17 @@
-const Display = require("../models/Display");
+import Display, { find, findById, findByIdAndUpdate, findByIdAndDelete } from "../models/Display";
 
 // Get all displays
-exports.getAllDisplays = async (req, res) => {
+export async function getAllDisplays(req, res) {
   try {
-    const displays = await Display.find();
+    const displays = await find();
     res.status(200).json(displays);
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Create a new display
-exports.createDisplay = async (req, res) => {
+export async function createDisplay(req, res) {
   try {
     const newDisplay = new Display(req.body);
     const savedDisplay = await newDisplay.save();
@@ -19,12 +19,12 @@ exports.createDisplay = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Get a single display by ID
-exports.getDisplayById = async (req, res) => {
+export async function getDisplayById(req, res) {
   try {
-    const display = await Display.findById(req.params.id);
+    const display = await findById(req.params.id);
     if (!display) {
       return res.status(404).json({ error: "Affichage non trouvé" });
     }
@@ -32,12 +32,12 @@ exports.getDisplayById = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Update a display by ID
-exports.updateDisplay = async (req, res) => {
+export async function updateDisplay(req, res) {
   try {
-    const updatedDisplay = await Display.findByIdAndUpdate(
+    const updatedDisplay = await findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
@@ -49,12 +49,12 @@ exports.updateDisplay = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}
 
 // Delete a display by ID
-exports.deleteDisplay = async (req, res) => {
+export async function deleteDisplay(req, res) {
   try {
-    const deletedDisplay = await Display.findByIdAndDelete(req.params.id);
+    const deletedDisplay = await findByIdAndDelete(req.params.id);
     if (!deletedDisplay) {
       return res.status(404).json({ error: "Affichage non trouvé" });
     }
@@ -62,4 +62,4 @@ exports.deleteDisplay = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: "Erreur serveur" });
   }
-};
+}

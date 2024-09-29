@@ -1,13 +1,7 @@
-const express = require("express");
-const {
-  createUser,
-  getAllUsers,
-  getUserById,
-  updateUser,
-  deleteUser,
-} = require("../controllers/userController");
+import { Router } from "express";
+import { createUser, getAllUsers, getUserById, updateUser, deleteUser } from "../../controllers/userController";
 
-const router = express.Router();
+const router = Router();
 
 // Toutes les routes sont accessibles uniquement aux administrateurs
 // router.use(protect); // Vérifie que l'utilisateur est authentifié
@@ -19,4 +13,4 @@ router.get("/:id", getUserById); // Récupérer un utilisateur spécifique
 router.put("/:id", updateUser); // Mettre à jour un utilisateur
 router.delete("/:id", deleteUser); // Supprimer un utilisateur
 
-module.exports = router;
+export default router;
